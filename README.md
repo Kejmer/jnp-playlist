@@ -1,4 +1,4 @@
-#Playlist
+# Playlist
 
 Celem zadania jest napisanie biblioteki implementującej część odtwarzacza multimedialnego
 z funkcjonalnością tworzenia i zarządzania listami odtwarzania (ang. playlist).
