@@ -5,7 +5,7 @@
 
 class Movie : public Playable
 {
-
+  void play() override;
 };
 
 #endif /* MOVIE_H */

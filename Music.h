@@ -4,7 +4,7 @@
 class Music : public Playable
 {
 public:
-  void play();
+  void play() override;
 };
 
 #endif /* MUSIC_H */

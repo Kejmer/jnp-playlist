@@ -6,7 +6,7 @@
 class Playlist : public Playable
 {
 public:
-  void play();
+  void play() override;
 };
 
 #endif /* PLAYLIST_H */
