@@ -1,7 +1,9 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-class Playlist
+#include "Playable.h"
+
+class Playlist : public Playable
 {
 public:
   void play();
