@@ -5,7 +5,7 @@
 
 class Movie : public Playable
 {
-  void play() override;
+  void play() const override;
 };
 
 #endif /* MOVIE_H */
