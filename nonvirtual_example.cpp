@@ -1,22 +1,22 @@
-#include <stdbits/c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-class Pojazd
+struct Pojazd
 {
   void sound()
   {
     cout << "Pyry pyrrrry" << endl;
   }
-}
+};
 
-class Samochod : public Pojazd
+struct Samochod : public Pojazd
 {
-  void sound() override
+  void sound()
   {
     cout << "Brum brrum" << endl;
   }
-}
+};
 
 
 int main() {
