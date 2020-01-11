@@ -3,7 +3,7 @@
 
 #include "Playable.h"
 
-class Movie : public Playable
+class Movie : public Media
 {
   void play() const override;
 };

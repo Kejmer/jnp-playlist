@@ -1,7 +1,7 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 
-class Music : public Playable
+class Music : public Media
 {
 public:
   void play() const override;
