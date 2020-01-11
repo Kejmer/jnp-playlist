@@ -1,15 +1,15 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <set>
+#include <unordered_set>
 #include "Playable.h"
 #include "Playlist.h"
-#include "File."
+#include "File.h"
 
 class Player
 {
 private:
-  unordered_map<std::string> _playlists;
+  unordered_set<std::string> _playlists;
 
 public:
   //Fabryka w środku
