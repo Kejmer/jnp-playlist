@@ -6,10 +6,12 @@
 class File
 {
 private:
-  Media file; //geter zaprzyjaźniony z playerem
+  Media media;
 
 public:
   File(std::string str);
+
+  Media getMedia();
 };
 
 #endif /* FILE_H */
