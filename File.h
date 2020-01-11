@@ -4,10 +4,7 @@
 class File
 {
 public:
-  File(std::string str)
-  {
-
-  }
+  File(std::string str);
 };
 
 #endif /* FILE_H */
