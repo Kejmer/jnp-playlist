@@ -58,4 +58,12 @@ class CorruptionException : public PlayerException
   }
 };
 
+class DuplicateException : public PlayerException
+{
+  const char * what() const throw()
+  {
+    return "REQUESTED PLAYLIST ALREADY EXISTS";
+  }
+}
+
 #endif /* PLAYER_EXCEPTION_H */
