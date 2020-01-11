@@ -1,1 +1,0 @@
-//raczej nie potrzebny, usuniemy pod koniec jak coś
