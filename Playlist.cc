@@ -10,7 +10,6 @@ Playlist::Pair::Pair(shared_ptr<Playable> elem) {
 }
 
 void Playlist::play() const {
-    cout << this->name << " ";
     this->mode->play(*this);
 }
 
