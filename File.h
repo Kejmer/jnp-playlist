@@ -1,17 +1,19 @@
-#ifndef FILE_H
-#define FILE_H
+#ifndef PLAYLIST_FILE_H
+#define PLAYLIST_FILE_H
 
 #include "Media.h"
 
 class File
 {
 private:
-  Media media;
+  // Media *media;
 
 public:
   File(std::string str);
 
-  Media getMedia();
+  ~File();
+
+  // Media *getMedia();
 };
 
-#endif /* FILE_H */
+#endif /* PLAYLIST_FILE_H */

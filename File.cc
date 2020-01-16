@@ -1,11 +1,18 @@
 #include "File.h"
+#include <iostream>
 
-File::File(std::string)
+File::File(std::string s)
 {
-
+  // this->media = new Media(content);
 }
 
-File::getMedia()
+File::~File()
 {
-  return this->media;
+  std::cout << "Czesc jestem destruktorem FILE\n";
+  // delete this->media;
 }
+
+// Media *File::getMedia()
+// {
+//   return this->media;
+// }

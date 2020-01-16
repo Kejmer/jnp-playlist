@@ -19,7 +19,7 @@ struct Samochod : public Pojazd
 };
 
 
-int main() {
+int main2() {
   Pojazd poj;
   Samochod sam;
 
@@ -39,4 +39,5 @@ int main() {
   wsk = &sam;
   wsk->sound();
 
+  return 0;
 }
