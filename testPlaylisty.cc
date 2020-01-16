@@ -1,12 +1,12 @@
 #include <iostream>
 #include "Playlist.h"
 
-int main() {
+int main4() {
 // checks if DFS works
     shared_ptr<Playlist> tab[25];
     for(int i=1;i<25;i++){
         tab[i] = make_shared<Playlist>();
-        tab[i]->nr = i;
+        // tab[i]->nr = i;
     }
     for(int i=1;i<20;i++){
         if(2*i<20) tab[i]->add(tab[2*i]);

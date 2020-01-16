@@ -1,9 +1,9 @@
-// #include "playlist.h"
+#include "playlist.h"
 #include <iostream>
 
 int main() {
   // Player player;
 
-  // auto mm = File("music|Itak jestem zepsut");
+  auto mm = File("prosze dzialaj");
   // mm.getMedia();
 }

@@ -11,7 +11,7 @@ Playlist::Pair::Pair(shared_ptr<Playable> obj1) {
 }
 
 void Playlist::play() const {
-    printf("%d ",this->nr);
+    // printf("%d ",this->nr);
     this->mode->play(*this);
 }
 

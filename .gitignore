@@ -15,3 +15,5 @@ CMakeFiles/
 *.a
 CMakeCache.txt
 !Makefile
+*.out
+*.o
