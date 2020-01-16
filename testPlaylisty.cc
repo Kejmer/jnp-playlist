@@ -1,12 +1,13 @@
-#include <iostream>
-#include "Playlist.h"
+#include "Player.h"
+#include "Media.h"
 
-int main4() {
+int mainPLaylist() {
+    Player player;
 // checks if DFS works
-    shared_ptr<Playlist> tab[25];
-    for(int i=1;i<25;i++){
-        tab[i] = make_shared<Playlist>();
-        // tab[i]->nr = i;
+    shared_ptr<Playlist> tab[20];
+    for(int i=1;i<20;i++){
+        string s = to_string(i);
+        tab[i] = player.CreatePlaylist(s);
     }
     for(int i=1;i<20;i++){
         if(2*i<20) tab[i]->add(tab[2*i]);
@@ -24,11 +25,10 @@ int main4() {
     tab[1]->play();
     cout << endl;
 
-    tab[1]->add(tab[20]);
-    tab[1]->add(tab[21]);
-    tab[1]->add(tab[22]);
-    tab[1]->add(tab[23]);
-    tab[1]->add(tab[24]);
+    for(int i=0;i<5;i++){
+        string s = "Media "+to_string(i);
+        tab[1]->add(make_shared<Media>(s));
+    }
 
     auto shuffle = createShuffleMode(1);
     tab[1]->setMode(shuffle);
