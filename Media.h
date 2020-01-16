@@ -13,12 +13,8 @@ private:
   std::string content;
 
   void displayMetadata() const;
-
   void displayContent() const;
-
-protected:
-
-  virtual void displayType() const = 0;
+  void displayType() const;
 
 public:
 

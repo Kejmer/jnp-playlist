@@ -4,6 +4,7 @@
 int main() {
   // Player player;
 
-  auto mm = File("prosze dzialaj");
-  // mm.getMedia();
+  auto mm = File("ASDA").getMedia();
+  mm->play();
+  std::cout << std::endl;
 }

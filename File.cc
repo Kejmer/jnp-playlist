@@ -1,18 +1,18 @@
 #include "File.h"
 #include <iostream>
 
-File::File(std::string s)
+File::File(std::string &&s)
 {
-  // this->media = new Media(content);
+  this->media = std::make_shared<Media>(s);
 }
 
 File::~File()
 {
   std::cout << "Czesc jestem destruktorem FILE\n";
-  // delete this->media;
+  this->media.reset();
 }
 
-// Media *File::getMedia()
-// {
-//   return this->media;
-// }
+std::shared_ptr<Media> File::getMedia()
+{
+  return this->media;
+}

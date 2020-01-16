@@ -1,22 +1,23 @@
 #ifndef PLAYLIST_FILE_H
 #define PLAYLIST_FILE_H
 
-// #include "Media.h"
+#include "Media.h"
 #include <string>
+#include <memory>
 
 // using namespace std;
 
 class File
 {
 private:
-  // Media *media;
+  std::shared_ptr<Media> media;
 
 public:
-  File(std::string str);
+  File(std::string &&s);
 
   ~File();
 
-  // Media *getMedia();
+  std::shared_ptr<Media> getMedia();
 };
 
 #endif /* PLAYLIST_FILE_H */

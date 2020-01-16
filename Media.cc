@@ -12,20 +12,31 @@ void Media::play() const
 void Media::displayMetadata() const
 {
   std::cout << "[";
-  for (unsigned i = 0; i < this->metadata.size(); i++) {
+  for (unsigned i = 0; i < metadata.size(); i++) {
     if (i > 0) std::cout << ", ";
-    std::cout << this->metadata[i];
+    std::cout << metadata[i];
   }
   std::cout << "]";
 }
 
 void Media::displayContent() const
 {
-  std::cout << this->content;
+  std::cout << content;
 }
 
-Media::Media(std::string &content) {
-  mediaType = content;
-  metadata.push_back(content);
-  this->content = content;
+void Media::displayType() const
+{
+  std::cout << mediaType;
+}
+
+Media::Media(std::string &content)
+{
+  mediaType = "ASSD";
+  this->content = "ASXX";
+  std::cout << "TEST1 " << content << std::endl;
+  std::cout << "TEST2 " << this->content << std::endl;
+
+  // mediaType = content;
+  // metadata.push_back(content);
+  // this->content = content;
 }
