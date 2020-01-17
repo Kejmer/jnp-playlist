@@ -1,7 +1,7 @@
 #include "playlist.h"
 int main() {
     Player player;
-    auto mm = File("ASDA").getMedia();
+    auto mm = player.openFile(File("plik"));
     mm->play();
     cout << endl;
 

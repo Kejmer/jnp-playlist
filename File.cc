@@ -2,7 +2,11 @@
 
 File::File(string &&s)
 {
-  this->media = std::make_shared<Media>(s);
+  try {
+    this->media = std::make_shared<Media>(s);
+  } catch (...) {
+    throw MemoryException();
+  }
 }
 
 File::~File()

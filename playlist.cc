@@ -9,3 +9,6 @@ shared_ptr<Playlist> Player::createPlaylist(string name) {
     }
 }
 
+shared_ptr<Playable> Player::openFile(File file) {
+    return file.getMedia();
+}
