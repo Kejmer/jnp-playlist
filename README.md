@@ -1,6 +1,3 @@
-TODO:
-zrobić PLayer::openFile
-
 # Playlist
 
 Celem zadania jest napisanie biblioteki implementującej część odtwarzacza multimedialnego
