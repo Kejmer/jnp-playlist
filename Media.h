@@ -16,6 +16,9 @@ private:
   void displayContent() const;
   void displayType() const;
 
+  static const std::string audioMeta[2];
+  static const std::string videoMeta[2];
+
 public:
 
   Media(std::string &content);

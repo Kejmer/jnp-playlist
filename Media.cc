@@ -1,6 +1,8 @@
 #include "Media.h"
-
 #include <iostream>
+
+const std::string Media::audioMeta[2] = {"artist","title"};
+const std::string Media::videoMeta[2] = {"year","title"};
 
 void Media::play() const
 {
