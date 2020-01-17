@@ -39,7 +39,7 @@ void Playlist::add(shared_ptr<Playlist> elem) {
 void Playlist::add(shared_ptr<Playable> elem, size_t position) {
     auto it = this->elems.begin()+position;
     try {
-        this->elems.insert(it, Pair(move(elem)));
+        this->elems.insert(it, Pair(elem));
     } catch(...) {
         throw MemoryException();
     }
@@ -54,7 +54,7 @@ void Playlist::add(shared_ptr<Playlist> elem, size_t position) {
         throw MemoryException();
     }
     try {
-        this->elems.push_back(Pair(elem, this->childs.end() - 1));
+        this->elems.insert(it, Pair(elem, this->childs.end() - 1));
     } catch(...) {
         this->childs.pop_back();
         throw MemoryException();

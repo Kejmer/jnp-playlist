@@ -1,14 +1,15 @@
-#include "Player.h"
-#include "Media.h"
-#include <iostream>
-
-int mainPLaylist() {
+#include "playlist.h"
+int main() {
     Player player;
+    auto mm = File("ASDA").getMedia();
+    mm->play();
+    cout << endl;
+
 // checks if DFS works
     shared_ptr<Playlist> tab[20];
     for(int i=1;i<20;i++){
         string s = to_string(i);
-        tab[i] = player.CreatePlaylist(s);
+        tab[i] = player.createPlaylist(s);
     }
     for(int i=1;i<20;i++){
         if(2*i<20) tab[i]->add(tab[2*i]);

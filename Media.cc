@@ -1,8 +1,7 @@
 #include "Media.h"
-#include <iostream>
 
-const std::string Media::audioMeta[2] = {"artist","title"};
-const std::string Media::videoMeta[2] = {"year","title"};
+const string Media::audioMeta[2] = {"artist","title"};
+const string Media::videoMeta[2] = {"year","title"};
 
 void Media::play() const
 {
@@ -13,30 +12,30 @@ void Media::play() const
 
 void Media::displayMetadata() const
 {
-  std::cout << "[";
+  cout << "[";
   for (unsigned i = 0; i < metadata.size(); i++) {
-    if (i > 0) std::cout << ", ";
-    std::cout << metadata[i];
+    if (i > 0) cout << ", ";
+    cout << metadata[i];
   }
-  std::cout << "]";
+  cout << "]";
 }
 
 void Media::displayContent() const
 {
-  std::cout << content;
+  cout << content;
 }
 
 void Media::displayType() const
 {
-  std::cout << mediaType;
+  cout << mediaType;
 }
 
 Media::Media(std::string &content)
 {
   mediaType = "ASSD";
-  this->content = "ASXX";
-  std::cout << "TEST1 " << content << std::endl;
-  std::cout << "TEST2 " << this->content << std::endl;
+  this->content = content;// czemu tu bylo "ASXX"
+  cout << "TEST1 " << content << endl;
+  cout << "TEST2 " << this->content << endl;
 
   // mediaType = content;
   // metadata.push_back(content);
