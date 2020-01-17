@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Media.h"
+#include <iostream>
 
 int mainPLaylist() {
     Player player;

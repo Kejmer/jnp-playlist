@@ -17,7 +17,7 @@ public:
   File(std::string &&s);
 
   ~File();
-  
+
   std::shared_ptr<Media> getMedia();
 };
 

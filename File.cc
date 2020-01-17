@@ -13,13 +13,6 @@ File::~File()
 }
 
 std::shared_ptr<Media> File::getMedia()
-
 {
-  std::cout << "Czesc jestem destruktorem FILE\n";
-  // delete this->media;
+  return this->media;
 }
-
-// Media *File::getMedia()
-// {
-//   return this->media;
-// }
