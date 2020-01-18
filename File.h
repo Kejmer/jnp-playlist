@@ -8,7 +8,6 @@
 class File
 {
 private:
-
   shared_ptr<Media> media;
 
 public:

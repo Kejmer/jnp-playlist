@@ -1,7 +1,7 @@
 #include "playlist.h"
-int main() {
+int main22() {
     Player player;
-    auto mm = player.openFile(File("plik"));
+    auto mm = player.openFile(File("audio|title:aa|artist:pecz|r"));
     mm->play();
     cout << endl;
 

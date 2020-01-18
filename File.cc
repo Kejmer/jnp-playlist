@@ -11,7 +11,6 @@ File::File(string &&s)
 
 File::~File()
 {
-  cout << "Czesc jestem destruktorem FILE\n";
   this->media.reset();
 }
 
