@@ -12,45 +12,31 @@ class PlayerException : public exception
     virtual const char * what() const throw() = 0; //nie jestem pewien czy tak
 };
 
-//Błąd zgłaszany gdy wejście nie zaczyna się od "video|" lub "audio|"
-class UnsupportedTypeException : public PlayerException
-{
-    const char * what() const throw()
-    {
-        return "UNSUPPORTED MEDIA TYPE; ONLY video AND audio ALLOWED";
-    }
-};
+// //Błąd zgłaszany gdy wejście nie zaczyna się od "video|" lub "audio|"
+// class UnsupportedTypeException : public PlayerException
+// {
+//     const char * what() const throw()
+//     {
+//         return "UNSUPPORTED MEDIA TYPE; ONLY video AND audio ALLOWED";
+//     }
+// };
 
 //Brak odpowiadających metadanych w video i audio
-class BadMetadataAbstrException : public PlayerException
+class BadMetadataException : public PlayerException
 {
-protected:
+private:
+    std::string missingData;
 
-    virtual const string getType() const = 0;
-
+public:
     const char * what() const throw()
     {
-        string s = "WRONG METADATA FOR " + getType();
+        string s = "WRONG METADATA FOR " + missingData;
         char * c = new char[s.size()];
         copy(s.begin(), s.end(), c);
         return c;
     }
-};
 
-class BadMetadataMovieException : public BadMetadataAbstrException
-{
-    const string getType() const
-    {
-        return "video";
-    }
-};
-
-class BadMetadataMusicException : public BadMetadataAbstrException
-{
-    const string getType() const
-    {
-        return "audio";
-    }
+    BadMetadataException(std::string str) : missingData(str) {}
 };
 
 //Nielegalne znaki w stringu
@@ -58,7 +44,7 @@ class CorruptionException : public PlayerException
 {
     const char * what() const throw()
     {
-        return "FILE IS CORRUPTED – ILLEGAL CHARACTERS";
+        return "FILE IS CORRUPTED – ILLEGAL CHARACTERS / UNSUPPORTED TYPE";
     }
 };
 

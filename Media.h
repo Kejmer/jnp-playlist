@@ -1,6 +1,7 @@
 #ifndef MEDIA_H
 #define MEDIA_H
 
+#include <list>
 #include <regex>
 #include <vector>
 #include "Playable.h"
@@ -9,27 +10,50 @@
 class Media : public Playable
 {
 private:
-  string mediaType;
-  vector<std::string> metadata;
-  string content;
+  class AbsStrategy
+  {
+  private:
+    std::string findMeta(std::string &data);
+  protected:
+    virtual void displayType() const = 0;
+    std::string metadata;
+    std::string content;
+    void processMeta(std::string &rawMeta, std::list<std::string> &metaList);
+  public:
+    void perform() const;
+  };
 
-  void displayMetadata() const;
-  void displayContent() const;
-  void displayType() const;
+  class AudioStrategy : public AbsStrategy
+  {
+  private:
+    static const std::list<std::string> audioMeta;
+  protected:
+    void displayType() const override;
+  public:
+    AudioStrategy(std::string &rawMeta, std::string &rawContent);
+  };
 
-  static const string audioMeta[2];
-  static const string videoMeta[2];
+  class VideoStrategy : public AbsStrategy
+  {
+  private:
+    static const std::list<std::string> videoMeta;
+  protected:
+    void displayType() const override;
+  public:
+    VideoStrategy(std::string &rawMeta, std::string &rawContent);
+  };
 
-  static const std::regex audioPattern("audio(\\|[a-z]+:[A-z\\d !,]*)*\\|[A-z\\d ,.!?':;-]*");
-  static const std::regex videoPattern("video(\\|[a-z]+:[A-z\\d !,]*)*\\|[A-z\\d ,.!?':;-]*");
+  static const std::regex audioPattern;
+  static const std::regex videoPattern;
 
-  std::string findMeta(std::string dataType);
+  AbsStrategy strategy;
 
 public:
 
   Media(string &content);
+  ~Media() = default;
 
-  void play() const;
+  void play() const override;
 
 };
 
