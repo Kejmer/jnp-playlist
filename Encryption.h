@@ -1,5 +1,5 @@
-#ifndef ENCRIPTION_H
-#define ENCRIPTION_H
+#ifndef ENCRYPTION_H
+#define ENCRYPTION_H
 
 #include <string>
 
@@ -14,4 +14,4 @@ public:
   static std::string encode(const std::string &msg);
 };
 
-#endif /* ENCRIPTION_H */
+#endif /* ENCRYPTION_H */

@@ -1,5 +1,6 @@
 #include "Encryption.h"
 
+const std::string ROT13::TRANS_KEY = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
 char ROT13::translate(char c)
 {
@@ -11,8 +12,6 @@ char ROT13::translate(char c)
   }
   return c;
 }
-
-const std::string ROT13::TRANS_KEY = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
 std::string ROT13::encode(const std::string &msg)
 {
