@@ -2,8 +2,8 @@
 #include "Media.h"
 #include "Encryption.h"
 
-const std::list<std::string> Media::AudioStrategy::audioMeta = {"artist","title"};
-const std::list<std::string> Media::VideoStrategy::videoMeta = {"year","title"};
+const std::list<std::string> AudioStrategy::audioMeta = {"artist","title"};
+const std::list<std::string> VideoStrategy::videoMeta = {"year","title"};
 
 const std::regex Media::audioPattern = regex("audio((?:\\|[a-z]+:[A-z\\d !,]*)*)\\|([A-z\\d ,.!?':;-]*)");
 const std::regex Media::videoPattern = regex("video((?:\\|[a-z]+:[A-z\\d !,]*)*)\\|([A-z\\d ,.!?':;-]*)");
@@ -11,19 +11,24 @@ const std::regex Media::videoPattern = regex("video((?:\\|[a-z]+:[A-z\\d !,]*)*)
 Media::Media(std::string &content)
 {
   std::smatch m;
+  std::string rawMeta, rawContent;
 
   if (std::regex_match(content, m, audioPattern)) {
     std::cout << "PASUJE TUTAJ\n";
-    this->strategy = AudioStrategy(m.str(1), m.str(2));
+    rawMeta = m.str(1);
+    rawContent = m.str(2);
+    this->strategy = new AudioStrategy(rawMeta, rawContent);
   } else
   if (std::regex_match(content, m, videoPattern)) {
-    this->strategy = VideoStrategy(m.str(1), m.str(2));
+    rawMeta = m.str(1);
+    rawContent = m.str(2);
+    this->strategy = new VideoStrategy(rawMeta, rawContent);
   } else {
     throw CorruptionException();
   }
 }
 
-std::string Media::AbsStrategy::findMeta(std::string &rawMeta, std::string &dataType)
+std::string AbsStrategy::findMeta(std::string &rawMeta, std::string &dataType)
 {
   const std::regex pattern("(?<=\\|" + dataType + ":)(.*?)");
   std::smatch m;
@@ -32,19 +37,19 @@ std::string Media::AbsStrategy::findMeta(std::string &rawMeta, std::string &data
   return m.suffix().str();
 }
 
-Media::AudioStrategy::AudioStrategy(std::list<std::string> &rawMeta, std::string &rawContent)
+AudioStrategy::AudioStrategy(std::string &rawMeta, std::string &rawContent)
 {
   this->content = rawContent;
   processMeta(rawMeta, audioMeta);
 }
 
-Media::AudioStrategy::AudioStrategy(std::list<std::string> &rawMeta, std::string &rawContent)
+VideoStrategy::VideoStrategy(std::string &rawMeta, std::string &rawContent)
 {
   this->content = ROT13::encode(rawContent);
   processMeta(rawMeta, videoMeta);
 }
 
-void Media::AbsStrategy::processMeta(std::string &rawMeta, std::list<std::string> &metaList)
+void AbsStrategy::processMeta(std::string &rawMeta, const std::list<std::string> &metaList)
 {
   std::string result = "[";
   bool notFirst = false;
@@ -55,19 +60,24 @@ void Media::AbsStrategy::processMeta(std::string &rawMeta, std::list<std::string
   result += "]";
 }
 
-void Media::AbsStrategy::perform()
+void AbsStrategy::perform() const
 {
   std::cout << " ";
   displayType();
   std::cout << " " << metadata << ": " << content;
 }
 
-void Media::AudioStrategy::displayType()
+void AudioStrategy::displayType() const
 {
   std::cout << "Song";
 }
 
-void Media::VideoStrategy::displayType()
+void VideoStrategy::displayType() const
 {
   std::cout << "Movie";
+}
+
+void Media::play() const
+{
+  strategy->perform();
 }
