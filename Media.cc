@@ -1,5 +1,6 @@
 #include <iterator>
 #include "Media.h"
+#include "Encryption.h"
 
 const std::list<std::string> Media::AudioStrategy::audioMeta = {"artist","title"};
 const std::list<std::string> Media::VideoStrategy::videoMeta = {"year","title"};
@@ -22,11 +23,11 @@ Media::Media(std::string &content)
   }
 }
 
-std::string Media::AbsStrategy::findMeta(std::string &dataType)
+std::string Media::AbsStrategy::findMeta(std::string &rawMeta, std::string &dataType)
 {
   const std::regex pattern("(?<=\\|" + dataType + ":)(.*?)");
   std::smatch m;
-  std::regex_search(dataType, m, pattern);
+  std::regex_search(rawMeta, m, pattern);
   if (m.empty()) throw BadMetadataException(dataType);
   return m.suffix().str();
 }
@@ -49,7 +50,7 @@ void Media::AbsStrategy::processMeta(std::string &rawMeta, std::list<std::string
   bool notFirst = false;
   for (auto type : metaList) {
     if (notFirst) result += ", "; else notFirst = true;
-    result += findMeta(type);
+    result += findMeta(rawMeta, type);
   }
   result += "]";
 }
