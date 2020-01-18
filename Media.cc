@@ -3,10 +3,10 @@
 #include "Encryption.h"
 
 const std::list<std::string> AudioStrategy::audioMeta = {"artist","title"};
-const std::list<std::string> VideoStrategy::videoMeta = {"year","title"};
+const std::list<std::string> VideoStrategy::videoMeta = {"title","year"};
 
-const std::regex Media::audioPattern = regex("audio((?:\\|[a-z]+:[A-z\\d !,]*)*)\\|([A-z\\d ,.!?':;-]*)");
-const std::regex Media::videoPattern = regex("video((?:\\|[a-z]+:[A-z\\d !,]*)*)\\|([A-z\\d ,.!?':;-]*)");
+const std::regex Media::audioPattern = regex("audio((?:\\|[a-z]+:[A-z\\d ,.!?':;-]*)*\\|)([A-z\\d ,.!?':;-]*)");
+const std::regex Media::videoPattern = regex("video((?:\\|[a-z]+:[A-z\\d ,.!?':;-]*)*\\|)([A-z\\d ,.!?':;-]*)");
 
 Media::Media(std::string &content)
 {
@@ -14,7 +14,6 @@ Media::Media(std::string &content)
   std::string rawMeta, rawContent;
 
   if (std::regex_match(content, m, audioPattern)) {
-    std::cout << "PASUJE TUTAJ\n";
     rawMeta = m.str(1);
     rawContent = m.str(2);
     this->strategy = new AudioStrategy(rawMeta, rawContent);
@@ -30,11 +29,11 @@ Media::Media(std::string &content)
 
 std::string AbsStrategy::findMeta(std::string &rawMeta, std::string &dataType)
 {
-  const std::regex pattern("(?<=\\|" + dataType + ":)(.*?)");
+  const std::regex pattern("\\|" + dataType + ":([A-z\\d ,.!?':;-]*?)(?=\\|)"); //negative lookbehind nie działa std::regex
   std::smatch m;
   std::regex_search(rawMeta, m, pattern);
   if (m.empty()) throw BadMetadataException(dataType);
-  return m.suffix().str();
+  return m[m.size()-1].str();
 }
 
 AudioStrategy::AudioStrategy(std::string &rawMeta, std::string &rawContent)
@@ -51,13 +50,13 @@ VideoStrategy::VideoStrategy(std::string &rawMeta, std::string &rawContent)
 
 void AbsStrategy::processMeta(std::string &rawMeta, const std::list<std::string> &metaList)
 {
-  std::string result = "[";
+  metadata = "[";
   bool notFirst = false;
   for (auto type : metaList) {
-    if (notFirst) result += ", "; else notFirst = true;
-    result += findMeta(rawMeta, type);
+    if (notFirst) metadata += ", "; else notFirst = true;
+    metadata += findMeta(rawMeta, type);
   }
-  result += "]";
+  metadata += "]";
 }
 
 void AbsStrategy::perform() const
