@@ -1,6 +1,7 @@
 #ifndef MEDIA_H
 #define MEDIA_H
 
+#include <regex>
 #include <vector>
 #include "Playable.h"
 #include "PlayerException.h"
@@ -18,6 +19,11 @@ private:
 
   static const string audioMeta[2];
   static const string videoMeta[2];
+
+  static const std::regex audioPattern("audio(\\|[a-z]+:[A-z\\d !,]*)*\\|[A-z\\d ,.!?':;-]*");
+  static const std::regex videoPattern("video(\\|[a-z]+:[A-z\\d !,]*)*\\|[A-z\\d ,.!?':;-]*");
+
+  std::string findMeta(std::string dataType);
 
 public:
 

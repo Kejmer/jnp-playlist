@@ -41,3 +41,8 @@ Media::Media(std::string &content)
   // metadata.push_back(content);
   // this->content = content;
 }
+
+std::string Media::findMeta(std::string dataType)
+{
+  const regex pattern("(?<=" + dataType + ":)(.*?)(?=\\|)");
+}
