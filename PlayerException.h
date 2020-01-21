@@ -9,6 +9,7 @@ using namespace std;
 
 class PlayerException : public exception
 {
+public:
     virtual const char * what() const throw() = 0; //nie jestem pewien czy tak
 };
 
@@ -42,6 +43,7 @@ public:
 //Nielegalne znaki w stringu
 class CorruptionException : public PlayerException
 {
+public:
     const char * what() const throw()
     {
         return "FILE IS CORRUPTED – ILLEGAL CHARACTERS / UNSUPPORTED TYPE";
@@ -50,6 +52,7 @@ class CorruptionException : public PlayerException
 
 class DuplicateException : public PlayerException // czy to potrzebne???
 {
+public:
     const char * what() const throw()
     {
         return "REQUESTED PLAYLIST ALREADY EXISTS";
@@ -58,6 +61,7 @@ class DuplicateException : public PlayerException // czy to potrzebne???
 
 class CycleException : public PlayerException
 {
+public:
     const char * what () const throw()
     {
         return "CYCLE FOUND";
@@ -66,6 +70,7 @@ class CycleException : public PlayerException
 
 class MemoryException : public PlayerException
 {
+public:
     const char * what () const throw()
     {
         return "NOT ENOUGH MEMORY";
@@ -74,6 +79,7 @@ class MemoryException : public PlayerException
 
 class RangeException : public PlayerException
 {
+public:
     const char * what () const throw()
     {
         return "OUT OF RANGE";
@@ -82,6 +88,7 @@ class RangeException : public PlayerException
 
 class ShuffleException : public PlayerException
 {
+public:
     const char * what () const throw()
     {
         return "SHUFFLE FAILED";
