@@ -7,7 +7,7 @@ char ROT13::translate(char c)
   if ('A' <= c && c <= 'Z')
     return TRANS_KEY[int(c-'A')];
   if ('a' <= c && c <= 'z') {
-    int position = 27 + c - 'a';
+    int position = 26 + c - 'a';
     return TRANS_KEY[position];
   }
   return c;
