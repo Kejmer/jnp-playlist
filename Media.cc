@@ -5,8 +5,8 @@
 const std::list<std::string> AudioStrategy::audioMeta = {"artist","title"};
 const std::list<std::string> VideoStrategy::videoMeta = {"title","year"};
 
-const std::regex Media::audioPattern = regex("audio((?:\\|[a-z]+:[A-z\\d ,.!?':;-]*)*\\|)([A-z\\d ,.!?':;-]*)");
-const std::regex Media::videoPattern = regex("video((?:\\|[a-z]+:[A-z\\d ,.!?':;-]*)*\\|)([A-z\\d ,.!?':;-]*)");
+const std::regex Media::audioPattern = regex("audio((?:\\|[^\\|]*:[^\\|]*)*\\|)([A-z\\d ,.!?':;-]*)");
+const std::regex Media::videoPattern = regex("video((?:\\|[^\\|]*:[^\\|]*)*\\|)([A-z\\d ,.!?':;-]*)");
 
 Media::Media(std::string &content)
 {
@@ -27,13 +27,18 @@ Media::Media(std::string &content)
   }
 }
 
-std::string AbsStrategy::findMeta(std::string &rawMeta, std::string &dataType)
+std::string AbsStrategy::findMeta(std::string rawMeta, std::string &dataType)
 {
-  const std::regex pattern("\\|" + dataType + ":([A-z\\d ,.!?':;-]*?)(?=\\|)"); //negative lookbehind nie działa std::regex
+  const std::regex pattern("[^\\|]*" + dataType + ":([^\\|]*?)(?=\\|)"); //negative lookbehind nie działa std::regex
   std::smatch m;
-  std::regex_search(rawMeta, m, pattern);
-  if (m.empty()) throw BadMetadataException(dataType);
-  return m[m.size()-1].str();
+  std::string result = "|";
+  while(std::regex_search(rawMeta, m, pattern)) {
+    result = m[1].str();
+    rawMeta = m.suffix().str();
+  }
+
+  if (result == "|") throw BadMetadataException(dataType);
+  return result;
 }
 
 AudioStrategy::AudioStrategy(std::string &rawMeta, std::string &rawContent)
