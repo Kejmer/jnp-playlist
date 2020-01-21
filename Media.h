@@ -10,7 +10,7 @@
 class AbsStrategy
 {
 private:
-  std::string findMeta(std::string &rawMeta, std::string &dataType);
+  std::string findMeta(std::string rawMeta, std::string &dataType);
 protected:
   std::string metadata;
   std::string content;
