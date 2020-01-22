@@ -33,7 +33,6 @@ int main() {
     mishmash->remove(0);
     mishmash->remove();
     mishmash->setMode(createOddEvenMode());
-    std::cout << "jeszcze zyje\n";
     mishmash->play();
 
     std::cout << "=== Playing 'mishmash' (sequence mode, 'armstrong' odd-even mode)" << std::endl;
@@ -58,6 +57,14 @@ int main() {
     } catch (PlayerException const& e) {
         std::cout << e.what() << std::endl;
     }
+
+    //DALSZE TESTY
+
+    std::string opis = "audio|artist:Zbigniew Stonoga|title:Last Karakan|Ale mnie kukle swedza!";
+
+    auto fromString = player.openFile(File(opis));
+
+    fromString->play();
 
     return 0;
 }

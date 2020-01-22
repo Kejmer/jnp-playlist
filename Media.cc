@@ -47,20 +47,6 @@ namespace {
     return result;
   }
 
-  AudioStrategy::AudioStrategy(std::string &rawMeta, std::string &rawContent)
-  {
-    this->content = rawContent;
-    this->type = "Song";
-    processMeta(rawMeta, audioMeta);
-  }
-
-  VideoStrategy::VideoStrategy(std::string &rawMeta, std::string &rawContent)
-  {
-    this->content = ROT13::encode(rawContent);
-    this->type = "Movie";
-    processMeta(rawMeta, videoMeta);
-  }
-
   void AbsStrategy::processMeta(std::string &rawMeta, const std::list<std::string> &metaList)
   {
     metadata = "[";
@@ -76,6 +62,20 @@ namespace {
   {
     std::string result = type + " " + metadata + ": " + content;
     return result;
+  }
+
+  AudioStrategy::AudioStrategy(std::string &rawMeta, std::string &rawContent)
+  {
+    this->content = rawContent;
+    this->type = "Song";
+    processMeta(rawMeta, audioMeta);
+  }
+
+  VideoStrategy::VideoStrategy(std::string &rawMeta, std::string &rawContent)
+  {
+    this->content = ROT13::encode(rawContent);
+    this->type = "Movie";
+    processMeta(rawMeta, videoMeta);
   }
 }
 
