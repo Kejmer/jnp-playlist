@@ -61,10 +61,17 @@ int main() {
     //DALSZE TESTY
 
     std::string opis = "audio|artist:Zbigniew Stonoga|title:Last Karakan|Ale mnie kukle swedza!";
-
     auto fromString = player.openFile(File(opis));
 
-    fromString->play();
+    armstrong->setMode(createSequenceMode());
+    armstrong->add(fromString, 0);
+    armstrong->add(fromString, 3);
+    /*error*/
+    //armstrong->add(fromString, 5);
+    //Playlist *ptr = nullptr;
+    //armstrong->add(static_cast<const std::shared_ptr<Playlist>>(ptr));
+    armstrong->add(player.createPlaylist("kkhhhhurraaaa"), 4);
+    armstrong->play();
 
     return 0;
 }

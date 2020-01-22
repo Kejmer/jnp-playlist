@@ -1,13 +1,15 @@
 #include "Playlist.h"
 
+#include <utility>
+
 Playlist::Pair::Pair(std::shared_ptr<Playable> elem, std::vector<std::shared_ptr<Playlist>>::iterator iter) {
-    this->elem = elem;
+    this->elem = std::move(elem);
     this->iter = iter;
     this->is_iter = true;
 }
 
 Playlist::Pair::Pair(std::shared_ptr<Playable> elem) {
-    this->elem = elem;
+    this->elem = std::move(elem);
     this->is_iter = false;
 }
 
@@ -16,15 +18,17 @@ void Playlist::play() const {
     this->mode->play(*this);
 }
 
-void Playlist::add(std::shared_ptr<Playable> elem) {
+void Playlist::add(const std::shared_ptr<Playable>& elem) {
+    if(elem == nullptr) throw NullptrException();
     try {
-        this->elems.push_back(Pair(elem));
+        this->elems.emplace_back(elem);
     } catch(...) {
         throw MemoryException();
     }
 }
 
-void Playlist::add(std::shared_ptr<Playlist> elem) {
+void Playlist::add(const std::shared_ptr<Playlist>& elem) {
+    if(elem == nullptr) throw NullptrException();
     if(elem->check(this)) throw CycleException();
     try {
         this->childs.push_back(elem);
@@ -32,23 +36,27 @@ void Playlist::add(std::shared_ptr<Playlist> elem) {
         throw MemoryException();
     }
     try {
-        this->elems.push_back(Pair(elem, this->childs.end() - 1));
+        this->elems.emplace_back(elem, this->childs.end() - 1);
     } catch(...) {
         this->childs.pop_back();
         throw MemoryException();
     }
 }
 
-void Playlist::add(std::shared_ptr<Playable> elem, size_t position) {
+void Playlist::add(const std::shared_ptr<Playable>& elem, size_t position) {
+    if(elem == nullptr) throw NullptrException();
+    if(position > this->elems.size()) throw RangeException();
     auto it = this->elems.begin()+position;
     try {
-        this->elems.insert(it, Pair(elem));
+        this->elems.emplace(it, Pair(elem));
     } catch(...) {
         throw MemoryException();
     }
 }
 
-void Playlist::add(std::shared_ptr<Playlist> elem, size_t position) {
+void Playlist::add(const std::shared_ptr<Playlist>& elem, size_t position) {
+    if(elem == nullptr) throw NullptrException();
+    if(position > this->elems.size()) throw RangeException();
     if(elem->check(this)) throw CycleException();
     auto it = this->elems.begin()+position;
     try {
@@ -65,9 +73,11 @@ void Playlist::add(std::shared_ptr<Playlist> elem, size_t position) {
 }
 
 void Playlist::remove() {
-    Pair x = this->elems.back();
-    if(x.is_iter) this->childs.erase(x.iter);
-    this->elems.pop_back();
+    if (!this->elems.empty()) {
+        Pair x = this->elems.back();
+        if (x.is_iter) this->childs.erase(x.iter);
+        this->elems.pop_back();
+    }
 }
 
 void Playlist::remove(size_t position) {
@@ -81,18 +91,19 @@ void Playlist::remove(size_t position) {
     }
 }
 
+// returns true if cycle found
 bool Playlist::check(Playlist *playlist) {
     if(playlist == this) return true;
     bool found = false;
-    for(auto x: this->childs){
+    for(const auto& x: this->childs){
         found = found || x->check(playlist);
         if(found) break;
     }
     return found;
 }
 
-void Playlist::setMode(std::shared_ptr<Mode> mode) {
-    this->mode = mode;
+void Playlist::setMode(std::shared_ptr<Mode> m) {
+    this->mode = std::move(m);
 }
 
 void Playlist::ModeShuffle::play(Playlist const& playlist) {
@@ -107,7 +118,7 @@ void Playlist::ModeShuffle::play(Playlist const& playlist) {
     } catch (...) {
         throw ShuffleException();
     }
-    for(auto x: copy) {
+    for(const auto& x: copy) {
         x.elem->play();
     }
 }
@@ -117,8 +128,6 @@ Playlist::ModeShuffle::ModeShuffle(size_t seed) {
 }
 
 void Playlist::ModeOddEven::play(Playlist const& playlist) {
-    auto it1 = playlist.elems.begin();
-    auto it2 = playlist.elems.end();
     for(size_t i=1;i<playlist.elems.size();i+=2){
         playlist.elems.at(i).elem->play();
     }
@@ -128,7 +137,7 @@ void Playlist::ModeOddEven::play(Playlist const& playlist) {
 }
 
 void Playlist::ModeSequence::play(Playlist const& playlist) {
-    for(auto x: playlist.elems){
+    for(const auto& x: playlist.elems){
         x.elem->play();
     }
 }

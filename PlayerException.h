@@ -92,4 +92,14 @@ public:
         return "SHUFFLE FAILED";
     }
 };
+
+class NullptrException : public PlayerException
+{
+public:
+    const char * what () const throw()
+    {
+        return "NULL";
+    }
+};
+
 #endif /* PLAYER_EXCEPTION_H */

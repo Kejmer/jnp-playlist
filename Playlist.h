@@ -4,6 +4,7 @@
 #include "Playable.h"
 #include "PlayerException.h"
 #include <memory>
+#include <utility>
 #include <vector>
 #include <deque>
 #include <algorithm>
@@ -28,7 +29,7 @@ private:
         bool is_iter;
 
         Pair(std::shared_ptr<Playable> elem, std::vector<std::shared_ptr<Playlist>>::iterator iter);
-        Pair(std::shared_ptr<Playable> elem);
+        explicit Pair(std::shared_ptr<Playable> elem);
     };
 
     std::vector<std::shared_ptr<Playlist>> childs; // playlisty ktore sa w elems
@@ -48,7 +49,7 @@ public:
         size_t seed;
     public:
         void play(Playlist const& playlist) override;
-        ModeShuffle(size_t seed);
+        explicit ModeShuffle(size_t seed);
     };
 
     class ModeOddEven : public Mode {
@@ -63,13 +64,13 @@ public:
 
     void play() const override;
 
-    void add(std::shared_ptr<Playable> elem);
+    void add(const std::shared_ptr<Playable>& elem);
 
-    void add(std::shared_ptr<Playlist> elem);
+    void add(const std::shared_ptr<Playlist>& elem);
 
-    void add(std::shared_ptr<Playable> elem, size_t position);
+    void add(const std::shared_ptr<Playable>& elem, size_t position);
 
-    void add(std::shared_ptr<Playlist> elem, size_t position);
+    void add(const std::shared_ptr<Playlist>& elem, size_t position);
 
     void remove(); //rzucamy wyjątek gdy puste??
 
@@ -77,9 +78,9 @@ public:
 
     void setMode(std::shared_ptr<Mode> mode);
 
-    Playlist(std::string name) {
+    explicit Playlist(std::string str) {
         mode = std::make_shared<ModeSequence>();
-        this->name = name;
+        this->name = std::move(str);
     }
 };
 
