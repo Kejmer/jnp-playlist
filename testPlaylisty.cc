@@ -1,4 +1,5 @@
 #include "playlist.h"
+using namespace std;
 int main() {
     Player player;
 // checks if DFS works
