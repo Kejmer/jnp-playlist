@@ -9,8 +9,6 @@
 #include <algorithm>
 #include <random>
 
-using namespace std;
-
 class Playlist : public Playable
 {
 
@@ -25,22 +23,21 @@ private:
 
     class Pair {
     public:
-        shared_ptr<Playable> elem;
+        std::shared_ptr<Playable> elem;
+        std::vector<std::shared_ptr<Playlist>>::iterator iter;
+        bool is_iter;
 
-        vector<shared_ptr<Playlist>>::iterator iter;
-
-        Pair(shared_ptr<Playable> elem, vector<shared_ptr<Playlist>>::iterator iter);
-
-        Pair(shared_ptr<Playable> elem);
+        Pair(std::shared_ptr<Playable> elem, std::vector<std::shared_ptr<Playlist>>::iterator iter);
+        Pair(std::shared_ptr<Playable> elem);
     };
 
-    vector<shared_ptr<Playlist>> childs; // playlisty ktore sa w elems
+    std::vector<std::shared_ptr<Playlist>> childs; // playlisty ktore sa w elems
 
-    deque<Pair> elems; // to odtwarzamy
+    std::deque<Pair> elems; // to odtwarzamy
 
-    shared_ptr<Mode> mode;
+    std::shared_ptr<Mode> mode;
 
-    string name;
+    std::string name;
 
     bool check(Playlist* playlist);
 
@@ -66,28 +63,28 @@ public:
 
     void play() const override;
 
-    void add(shared_ptr<Playable>);
+    void add(std::shared_ptr<Playable> elem);
 
-    void add(shared_ptr<Playlist>);
+    void add(std::shared_ptr<Playlist> elem);
 
-    void add(shared_ptr<Playable>, size_t position);
+    void add(std::shared_ptr<Playable> elem, size_t position);
 
-    void add(shared_ptr<Playlist>, size_t position);
+    void add(std::shared_ptr<Playlist> elem, size_t position);
 
     void remove(); //rzucamy wyjątek gdy puste??
 
     void remove(size_t position); //rzucamy wyjątek gdy nie ma tej pozycji
 
-    void setMode(shared_ptr<Mode> mode);
+    void setMode(std::shared_ptr<Mode> mode);
 
-    Playlist(string name) {
-        mode = make_shared<ModeSequence>();
+    Playlist(std::string name) {
+        mode = std::make_shared<ModeSequence>();
         this->name = name;
     }
 };
 
-shared_ptr<Playlist::ModeSequence> createSequenceMode();
-shared_ptr<Playlist::ModeShuffle> createShuffleMode(size_t seed);
-shared_ptr<Playlist::ModeOddEven> createOddEvenMode();
+std::shared_ptr<Playlist::ModeSequence> createSequenceMode();
+std::shared_ptr<Playlist::ModeShuffle> createShuffleMode(size_t seed);
+std::shared_ptr<Playlist::ModeOddEven> createOddEvenMode();
 
 #endif /* PLAYLIST_H */

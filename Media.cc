@@ -5,8 +5,8 @@
 const std::list<std::string> AudioStrategy::audioMeta = {"artist","title"};
 const std::list<std::string> VideoStrategy::videoMeta = {"title","year"};
 
-const std::regex Media::audioPattern = regex("audio((?:\\|[^\\|]*:[^\\|]*)*\\|)([A-z\\d ,.!?':;-]*)");
-const std::regex Media::videoPattern = regex("video((?:\\|[^\\|]*:[^\\|]*)*\\|)([A-z\\d ,.!?':;-]*)");
+const std::regex Media::audioPattern = std::regex("audio((?:\\|[^\\|]*:[^\\|]*)*\\|)([A-z\\d ,.!?':;-]*)");
+const std::regex Media::videoPattern = std::regex("video((?:\\|[^\\|]*:[^\\|]*)*\\|)([A-z\\d ,.!?':;-]*)");
 
 Media::Media(std::string &content)
 {
@@ -16,12 +16,12 @@ Media::Media(std::string &content)
   if (std::regex_match(content, m, audioPattern)) {
     rawMeta = m.str(1);
     rawContent = m.str(2);
-    this->strategy = new AudioStrategy(rawMeta, rawContent);
+    this->strategy = std::make_shared<AudioStrategy>(rawMeta, rawContent);
   } else
   if (std::regex_match(content, m, videoPattern)) {
     rawMeta = m.str(1);
     rawContent = m.str(2);
-    this->strategy = new VideoStrategy(rawMeta, rawContent);
+    this->strategy = std::make_shared<VideoStrategy>(rawMeta, rawContent);
   } else {
     throw CorruptionException();
   }
@@ -68,7 +68,7 @@ void AbsStrategy::perform() const
 {
   std::cout << " ";
   displayType();
-  std::cout << " " << metadata << ": " << content;
+  std::cout << " " << metadata << ": " << content << std::endl;
 }
 
 void AudioStrategy::displayType() const

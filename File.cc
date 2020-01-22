@@ -1,11 +1,13 @@
 #include "File.h"
 
-File::File(string &&s)
+File::File(std::string &&s)
 {
   try {
     this->media = std::make_shared<Media>(s);
+  } catch (PlayerException &pe) {
+      throw;
   } catch (...) {
-    throw MemoryException();
+      throw MemoryException();
   }
 }
 
@@ -14,7 +16,7 @@ File::~File()
   this->media.reset();
 }
 
-shared_ptr<Media> File::getMedia()
+std::shared_ptr<Media> File::getMedia()
 {
   return this->media;
 }

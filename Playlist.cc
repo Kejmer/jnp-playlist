@@ -1,28 +1,31 @@
 #include "Playlist.h"
 
-Playlist::Pair::Pair(shared_ptr<Playable> elem, vector<shared_ptr<Playlist>>::iterator iter) {
+Playlist::Pair::Pair(std::shared_ptr<Playable> elem, std::vector<std::shared_ptr<Playlist>>::iterator iter) {
     this->elem = elem;
     this->iter = iter;
+    this->is_iter = true;
 }
 
-Playlist::Pair::Pair(shared_ptr<Playable> elem) {
+Playlist::Pair::Pair(std::shared_ptr<Playable> elem) {
     this->elem = elem;
+    this->is_iter = false;
 }
 
 void Playlist::play() const {
+    std::cout << "Playlist[" << this->name << "]" << std::endl;
     this->mode->play(*this);
 }
 
-void Playlist::add(shared_ptr<Playable> elem) {
+void Playlist::add(std::shared_ptr<Playable> elem) {
     try {
-        this->elems.push_back(Pair(move(elem)));
+        this->elems.push_back(Pair(elem));
     } catch(...) {
         throw MemoryException();
     }
 }
 
-void Playlist::add(shared_ptr<Playlist> elem) {
-    if(elem->check(this)) throw new CycleException();
+void Playlist::add(std::shared_ptr<Playlist> elem) {
+    if(elem->check(this)) throw CycleException();
     try {
         this->childs.push_back(elem);
     } catch(...) {
@@ -36,7 +39,7 @@ void Playlist::add(shared_ptr<Playlist> elem) {
     }
 }
 
-void Playlist::add(shared_ptr<Playable> elem, size_t position) {
+void Playlist::add(std::shared_ptr<Playable> elem, size_t position) {
     auto it = this->elems.begin()+position;
     try {
         this->elems.insert(it, Pair(elem));
@@ -45,8 +48,8 @@ void Playlist::add(shared_ptr<Playable> elem, size_t position) {
     }
 }
 
-void Playlist::add(shared_ptr<Playlist> elem, size_t position) {
-    if(elem->check(this)) throw new CycleException();
+void Playlist::add(std::shared_ptr<Playlist> elem, size_t position) {
+    if(elem->check(this)) throw CycleException();
     auto it = this->elems.begin()+position;
     try {
         this->childs.push_back(elem);
@@ -63,16 +66,15 @@ void Playlist::add(shared_ptr<Playlist> elem, size_t position) {
 
 void Playlist::remove() {
     Pair x = this->elems.back();
-    this->childs.erase(x.iter);
+    if(x.is_iter) this->childs.erase(x.iter);
     this->elems.pop_back();
 }
 
 void Playlist::remove(size_t position) {
     if(position >= this->elems.size()) throw RangeException();
     auto it = this->elems.begin()+position;
-    Pair x = this->elems.at(position);
     try {
-        this->childs.erase(x.iter);
+        if(it->is_iter) this->childs.erase(it->iter);
         this->elems.erase(it);
     } catch(...) {
         throw MemoryException();
@@ -89,19 +91,19 @@ bool Playlist::check(Playlist *playlist) {
     return found;
 }
 
-void Playlist::setMode(shared_ptr<Mode> mode) {
+void Playlist::setMode(std::shared_ptr<Mode> mode) {
     this->mode = mode;
 }
 
 void Playlist::ModeShuffle::play(Playlist const& playlist) {
-    deque<Pair> copy;
+    std::deque<Pair> copy;
     try {
         copy = playlist.elems;
     } catch(...) {
         throw MemoryException();
     }
     try {
-        shuffle(copy.begin(), copy.end(), default_random_engine(seed));
+        shuffle(copy.begin(), copy.end(), std::default_random_engine(seed));
     } catch (...) {
         throw ShuffleException();
     }
@@ -117,12 +119,11 @@ Playlist::ModeShuffle::ModeShuffle(size_t seed) {
 void Playlist::ModeOddEven::play(Playlist const& playlist) {
     auto it1 = playlist.elems.begin();
     auto it2 = playlist.elems.end();
-
-    for(auto it=it1+1; it!=it2 && it-1!=it2; it+=2){
-        it->elem->play();
+    for(size_t i=1;i<playlist.elems.size();i+=2){
+        playlist.elems.at(i).elem->play();
     }
-    for(auto it=it1; it!=it2 && it-1!=it2; it+=2){
-        it->elem->play();
+    for(size_t i=0;i<playlist.elems.size();i+=2){
+        playlist.elems.at(i).elem->play();
     }
 }
 
@@ -132,27 +133,27 @@ void Playlist::ModeSequence::play(Playlist const& playlist) {
     }
 }
 
-shared_ptr<Playlist::ModeSequence> createSequenceMode() {
+std::shared_ptr<Playlist::ModeSequence> createSequenceMode() {
     try {
-        auto mode = make_shared<Playlist::ModeSequence>();
+        auto mode = std::make_shared<Playlist::ModeSequence>();
         return mode;
     } catch (...) {
         throw MemoryException();
     }
 }
 
-shared_ptr<Playlist::ModeShuffle> createShuffleMode(size_t seed) {
+std::shared_ptr<Playlist::ModeShuffle> createShuffleMode(size_t seed) {
     try {
-        auto mode = make_shared<Playlist::ModeShuffle>(seed);
+        auto mode = std::make_shared<Playlist::ModeShuffle>(seed);
         return mode;
     } catch (...) {
         throw MemoryException();
     }
 }
 
-shared_ptr<Playlist::ModeOddEven> createOddEvenMode() {
+std::shared_ptr<Playlist::ModeOddEven> createOddEvenMode() {
     try {
-        auto mode = make_shared<Playlist::ModeOddEven>();
+        auto mode = std::make_shared<Playlist::ModeOddEven>();
         return mode;
     } catch (...) {
         throw MemoryException();

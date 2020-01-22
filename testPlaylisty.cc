@@ -1,10 +1,6 @@
 #include "playlist.h"
-int main22() {
+int main() {
     Player player;
-    auto mm = player.openFile(File("audio|title:aa|artist:pecz|r"));
-    mm->play();
-    cout << endl;
-
 // checks if DFS works
     shared_ptr<Playlist> tab[20];
     for(int i=1;i<20;i++){
@@ -27,16 +23,23 @@ int main22() {
     tab[1]->play();
     cout << endl;
 
-    for(int i=0;i<5;i++){
-        string s = "Media "+to_string(i);
-        tab[1]->add(make_shared<Media>(s));
+    for(int i=0;i<2;i++){
+        tab[1]->add(player.openFile(File("audio|title:aa|artist:pecz|kurrrr")));
+        tab[1]->add(player.openFile(File("audio|title:aa|artist:pecz|aaaaa")));
     }
+
+    tab[1]->add(player.openFile(File("audio|title:aa|artist:pecz|ta jjeeee")));
 
     auto shuffle = createShuffleMode(1);
     tab[1]->setMode(shuffle);
     cout << "Shuffle: ";
     tab[1]->play();
     cout << endl;
+
+    tab[1]->remove(5);
+    tab[1]->remove(5);
+    /*error*/
+    //tab[1]->remove(5);
 
     auto oddEven = createOddEvenMode();
     tab[1]->setMode(oddEven); // 21, 23, 20 22, 24 - dziala

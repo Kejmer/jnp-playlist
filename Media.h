@@ -47,11 +47,11 @@ private:
   static const std::regex audioPattern;
   static const std::regex videoPattern;
 
-  AbsStrategy *strategy;
+    std::shared_ptr<AbsStrategy> strategy;
 
 public:
 
-  Media(string &content);
+  Media(std::string &content);
   ~Media() = default;
 
   void play() const override;

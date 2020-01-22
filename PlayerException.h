@@ -5,9 +5,7 @@
 #include <string>
 #include <iostream>
 
-using namespace std;
-
-class PlayerException : public exception
+class PlayerException : public std::exception
 {
 public:
     virtual const char * what() const throw() = 0; //nie jestem pewien czy tak
@@ -31,7 +29,7 @@ private:
 public:
     const char * what() const throw()
     {
-        string s = "WRONG METADATA FOR " + missingData;
+        std::string s = "WRONG METADATA FOR " + missingData;
         char * c = new char[s.size()];
         copy(s.begin(), s.end(), c);
         return c;
