@@ -13,9 +13,9 @@ private:
 public:
   File(std::string &&s);
 
-  ~File();
+  ~File() = default;
 
-    std::shared_ptr<Media> getMedia();
+  std::shared_ptr<Media> getMedia();
 };
 
 #endif /* PLAYLIST_FILE_H */

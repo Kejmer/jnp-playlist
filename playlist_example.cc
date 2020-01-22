@@ -33,6 +33,7 @@ int main() {
     mishmash->remove(0);
     mishmash->remove();
     mishmash->setMode(createOddEvenMode());
+    std::cout << "jeszcze zyje\n";
     mishmash->play();
 
     std::cout << "=== Playing 'mishmash' (sequence mode, 'armstrong' odd-even mode)" << std::endl;

@@ -1,6 +1,6 @@
 #include "playlist.h"
 using namespace std;
-int main() {
+int main222() {
     Player player;
 // checks if DFS works
     shared_ptr<Playlist> tab[20];

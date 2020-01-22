@@ -11,11 +11,6 @@ File::File(std::string &&s)
   }
 }
 
-File::~File()
-{
-  this->media.reset();
-}
-
 std::shared_ptr<Media> File::getMedia()
 {
   return this->media;
