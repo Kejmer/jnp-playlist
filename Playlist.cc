@@ -13,6 +13,11 @@ Playlist::Pair::Pair(std::shared_ptr<Playable> elem) {
     this->is_iter = false;
 }
 
+Playlist::Playlist(std::string str) {
+        mode = std::make_shared<ModeSequence>();
+        this->name = std::move(str);
+}
+
 void Playlist::play() const {
     std::cout << "Playlist[" << this->name << "]" << std::endl;
     this->mode->play(*this);

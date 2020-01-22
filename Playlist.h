@@ -4,7 +4,6 @@
 #include "Playable.h"
 #include "PlayerException.h"
 #include <memory>
-#include <utility>
 #include <vector>
 #include <deque>
 #include <algorithm>
@@ -78,10 +77,7 @@ public:
 
     void setMode(std::shared_ptr<Mode> mode);
 
-    explicit Playlist(std::string str) {
-        mode = std::make_shared<ModeSequence>();
-        this->name = std::move(str);
-    }
+    explicit Playlist(std::string str);
 };
 
 std::shared_ptr<Playlist::ModeSequence> createSequenceMode();
